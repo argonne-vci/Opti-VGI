@@ -4,14 +4,11 @@ FROM python:3.12
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the main requirements.txt into the container at /usr/src/app
-COPY requirements.txt .
+# Copy the main optivgi whl into the container at /usr/src/app
+COPY dist/optivgi-1.0.0-py3-none-any.whl .
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the main source directory contents into the container at /usr/src/app
-COPY optivgi optivgi
+# Install optivgi whl
+RUN pip install --no-cache-dir optivgi-1.0.0-py3-none-any.whl
 
 # Copy the example requirements.txt into the container at /usr/src/app
 COPY example/requirements.txt .
