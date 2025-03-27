@@ -1,3 +1,4 @@
+# pylint: disable=wrong-import-order
 import time
 import threading
 import logging

@@ -8,6 +8,7 @@ import websockets
 
 
 async def listen_websocket(event_queue: Queue):
+    """Start a WebSocket client and listen for messages"""
     port = os.getenv('WEBSOCKET_PORT')
     assert port, f'WEBSOCKET_PORT({port}) environment variable must be set'
     endpoint = f'ws://localhost:{port}'

@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring
 import math
 import logging
 from dataclasses import dataclass, field

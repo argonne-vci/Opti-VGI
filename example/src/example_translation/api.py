@@ -1,13 +1,14 @@
+# pylint: disable=broad-exception-caught
 import os
 import logging
 from typing import Optional
 from datetime import datetime
 
+import requests
+
 from optivgi.translation import Translation
 from optivgi.scm.ev import EV, ChargingRateUnit
 from optivgi.scm.constants import AlgorithmConstants, EVConstants
-
-import requests
 
 class TranslationAPI(Translation):
     """

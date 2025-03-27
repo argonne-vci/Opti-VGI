@@ -1,3 +1,4 @@
+# pylint: disable=invalid-name
 """
 A combined HTTP & WebSocket server that:
 - Serves HTTP endpoints for:
@@ -230,6 +231,7 @@ def start_http_server(stop_event: Optional[threading.Event] = None):
 # Main Entry
 # ------------------------------
 def main():
+    """Main entry point to start the HTTP and WebSocket servers."""
     stop_event = threading.Event()
 
     # 1) Start the HTTP server in a dedicated thread

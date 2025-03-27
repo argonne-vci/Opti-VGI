@@ -53,14 +53,17 @@ class EV:
         return hash(self.ev_id)
 
     def departure_index(self, now: datetime) -> int:
+        """Get the index of the departure time based on the current time"""
         departure_index = int((self.departure_time - now).total_seconds() / AlgorithmConstants.RESOLUTION.total_seconds())
         return max(0, min(departure_index, AlgorithmConstants.TIMESTEPS - 1))
 
     def arrival_index(self, now: datetime) -> int:
+        """Get the index of the arrival time based on the current time"""
         arrival_index = int((self.arrival_time - now).total_seconds() / AlgorithmConstants.RESOLUTION.total_seconds())
         return max(0, min(arrival_index, AlgorithmConstants.TIMESTEPS - 1))
 
     def energy_charged(self) -> float:
+        """Get the total energy charged by the EV"""
         return sum(self.power) * AlgorithmConstants.POWER_ENERGY_FACTOR
 
     def current_charging_profile(self, now: datetime, unit: Optional[ChargingRateUnit] = None) -> dict:
