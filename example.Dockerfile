@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the main source directory contents into the container at /usr/src/app
-COPY src/ .
+COPY optivgi/ .
 
 # Copy the example requirements.txt into the container at /usr/src/app
 COPY example/requirements.txt .
