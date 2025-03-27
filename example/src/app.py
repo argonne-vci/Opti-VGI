@@ -5,9 +5,9 @@ from queue import Queue
 
 from dotenv import load_dotenv
 
-from threads import timer_thread_worker, scm_worker
-# from scm.pulp_numerical_algorithm import PulpNumericalAlgorithm
-from scm.go_algorithm import GoAlgorithm
+from optivgi.threads import timer_thread_worker, scm_worker
+# from optivgi.scm.pulp_numerical_algorithm import PulpNumericalAlgorithm
+from optivgi.scm.go_algorithm import GoAlgorithm
 
 from example_translation.api import TranslationAPI
 from example_translation.listener_threads import reservation_listener_thread

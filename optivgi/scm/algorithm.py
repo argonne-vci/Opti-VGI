@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional
 
-from scm.ev import EV, ChargingRateUnit
-from scm.constants import AlgorithmConstants
+from .ev import EV, ChargingRateUnit
+from .constants import AlgorithmConstants
 
 class Algorithm(ABC):
     """Abstract class for SCM Algorithms"""

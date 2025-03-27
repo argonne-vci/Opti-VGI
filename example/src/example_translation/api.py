@@ -3,9 +3,9 @@ import logging
 from typing import Optional
 from datetime import datetime
 
-from translation import Translation
-from scm.ev import EV, ChargingRateUnit
-from scm.constants import AlgorithmConstants, EVConstants
+from optivgi.translation import Translation
+from optivgi.scm.ev import EV, ChargingRateUnit
+from optivgi.scm.constants import AlgorithmConstants, EVConstants
 
 import requests
 

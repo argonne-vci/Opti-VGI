@@ -5,9 +5,9 @@ from queue import Queue
 from datetime import datetime
 from typing import Type
 
-from scm_runner import scm_runner
-from translation import Translation
-from scm.algorithm import Algorithm
+from .scm_runner import scm_runner
+from .translation import Translation
+from .scm.algorithm import Algorithm
 
 
 def timer_thread_worker(event_queue: Queue):

@@ -3,10 +3,10 @@ import logging
 from typing import Type
 from datetime import datetime, UTC
 
-from translation import Translation
-from scm.algorithm import Algorithm
-from scm.constants import AlgorithmConstants
-from utils import round_down_datetime
+from .translation import Translation
+from .scm.algorithm import Algorithm
+from .scm.constants import AlgorithmConstants
+from .utils import round_down_datetime
 
 def scm_runner(translation: Translation, algorithm_cls: Type[Algorithm]):
     """Main OptiVGI function that uses the translation and algorithm to run the SCM logic"""

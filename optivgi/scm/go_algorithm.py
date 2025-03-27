@@ -2,9 +2,9 @@ import math
 import logging
 from dataclasses import dataclass, field
 
-from scm.algorithm import Algorithm
-from scm.constants import AlgorithmConstants
-from scm.ev import EV
+from .algorithm import Algorithm
+from .constants import AlgorithmConstants
+from .ev import EV
 
 
 # Debug Flag

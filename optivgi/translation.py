@@ -3,7 +3,7 @@ from contextlib import AbstractContextManager
 from datetime import datetime
 from typing import Optional
 
-from scm.ev import EV, ChargingRateUnit
+from .scm.ev import EV, ChargingRateUnit
 
 class Translation(AbstractContextManager):
     """

@@ -2,8 +2,8 @@ import logging
 
 from pulp import LpVariable, LpProblem, LpMaximize, PULP_CBC_CMD
 
-from scm.algorithm import Algorithm
-from scm.constants import AlgorithmConstants
+from .algorithm import Algorithm
+from .constants import AlgorithmConstants
 
 class PulpNumericalAlgorithm(Algorithm):
     """Pulp Numerical SCM Algorithm"""

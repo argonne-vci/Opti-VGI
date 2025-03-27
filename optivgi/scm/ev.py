@@ -3,7 +3,7 @@ from enum import Enum
 from datetime import datetime
 from typing import Optional, Self
 
-from scm.constants import EVConstants, AlgorithmConstants
+from .constants import EVConstants, AlgorithmConstants
 
 
 
