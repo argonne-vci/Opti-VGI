@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir optivgi
 # COPY optivgi-1.0.0-py3-none-any.whl .
 # RUN pip install --no-cache-dir optivgi-1.0.0-py3-none-any.whl
 
-# Copy the example requirements.txt into the container at /usr/src/app
+# Copy the requirements.txt into the container at /usr/src/app
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt

@@ -23,12 +23,12 @@ class TranslationAPI(Translation):
 
     def __enter__(self):
         """Perform any entry setup needed in the translation layer."""
-        logging.info('Entering Example Translation Layer')
+        logging.info('Entering Example HTTP Translation Layer')
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Exit the runtime context and perform any cleanup."""
-        logging.info('Exiting EVrest Translation Layer')
+        logging.info('Exiting Example HTTP Translation Layer')
         # self.cleanup.__exit__(exc_type, exc_val, exc_tb)
 
     def get_peak_power_demand(self, group_name: str, now: datetime, voltage: Optional[float] = None) -> list[float]:

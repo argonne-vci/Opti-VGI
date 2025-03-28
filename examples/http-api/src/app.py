@@ -10,8 +10,8 @@ from optivgi.threads import timer_thread_worker, scm_worker
 # from optivgi.scm.pulp_numerical_algorithm import PulpNumericalAlgorithm
 from optivgi.scm.go_algorithm import GoAlgorithm
 
-from example_translation.api import TranslationAPI
-from example_translation.listener_threads import reservation_listener_thread
+from translation.api import TranslationAPI
+from translation.listener_threads import reservation_listener_thread
 
 
 logging.basicConfig(
