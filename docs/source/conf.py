@@ -5,14 +5,20 @@
 
 import os
 import sys
+import tomllib
+from pathlib import Path
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Opti-VGI'
-copyright = '2025, Nithin Manne, Jason Harper'
+copyright = '2025, Nithin Manne, Jason Harper, Argonne National Laboratory'
 author = 'Nithin Manne, Jason Harper'
-release = '1.0.0'
+
+pyproject_path = Path(__file__).resolve().parent.parent.parent / "pyproject.toml"
+with open(pyproject_path, 'rb') as f:
+    data = tomllib.load(f)
+release = data["project"]["version"]
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -40,6 +46,7 @@ html_static_path = ['_static']
 
 # -- Other Configuration Options -----------------------------------------------
 
+autodoc_member_order = 'bysource'
 always_document_param_types = True
 typehints_fully_qualified = False
 typehints_document_rtype = True

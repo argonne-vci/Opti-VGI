@@ -15,6 +15,14 @@ electric vehicle charging based on power or pricing constraints.
    api/index
    examples/index
 
+.. toctree::
+	:caption: Links
+	:hidden:
+
+	GitHub <https://github.com/Argonne-National-Laboratory/Opti-VGI>
+	PyPI <https://pypi.org/project/optivgi>
+	License <https://github.com/Argonne-National-Laboratory/Opti-VGI/blob/main/LICENSE>
+
 Indices and tables
 ==================
 

@@ -1,10 +1,13 @@
-name: python
+name: Run Python checks such as linting and testing
 
 on:
   push:
     branches: ['**']
   pull_request:
     branches: ['**']
+
+permissions:
+  contents: read
 
 jobs:
   lint:

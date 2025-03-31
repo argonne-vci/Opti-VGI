@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "optivgi"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
   { name="Nithin Manne", email="nmanne@anl.gov" },
   { name="Jason Harper", email="jharper@anl.gov" },
@@ -18,7 +18,7 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
 ]
-dynamic = ["dependencies"]
+dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

@@ -57,7 +57,7 @@ Use this method if you have made local changes to the main Opti-VGI library that
        pip install --upgrade build
        python -m build
 
-    This creates files in the `dist/` directory (e.g., `optivgi-0.1.1-py3-none-any.whl`).
+    This creates files in the `dist/` directory (e.g., `optivgi-1.0.0-py3-none-any.whl`).
 
 2.  **Copy Wheel**: Copy the generated `.whl` file into the `./examples/http-api/` directory.
 
