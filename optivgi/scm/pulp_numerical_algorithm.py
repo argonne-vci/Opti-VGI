@@ -1,3 +1,10 @@
+"""
+Provides an SCM algorithm implementation using the PuLP linear programming library.
+
+This algorithm formulates the charging schedule optimization as a linear program
+and uses a solver (like CBC, GLPK, CPLEX, etc.) interfaced through PuLP to find
+an optimal solution based on the defined objective and constraints.
+"""
 import logging
 
 from pulp import LpVariable, LpProblem, LpMaximize, PULP_CBC_CMD
@@ -6,9 +13,38 @@ from .algorithm import Algorithm
 from .constants import AlgorithmConstants
 
 class PulpNumericalAlgorithm(Algorithm):
-    """Pulp Numerical SCM Algorithm"""
+    """
+    SCM Algorithm using PuLP for Linear Programming Optimization.
+
+    This algorithm aims to maximize the percentage of requested energy delivered
+    across all EVs, while respecting individual EV power limits, arrival/departure
+    times, and aggregate peak power constraints for the group. It also includes
+    terms to encourage utilizing available peak power and minimizing power fluctuations.
+    """
 
     def calculate(self) -> None:
+        """
+        Formulates and solves the charging optimization problem using PuLP.
+
+        Steps:
+        1. Create an LpProblem instance.
+        2. Define decision variables:
+           - `ev_vars`: Power allocated to each EV at each time step.
+           - `ev_vars_diff`: Absolute difference in power between consecutive time steps for each EV.
+           - `percentage`: Minimum percentage of energy charged across all EVs (to be maximized).
+        3. Define the objective function: Maximize `percentage`, scaled, plus a term for
+           peak power utilization, minus a penalty for power fluctuations (`ev_vars_diff`).
+        4. Define constraints:
+           - Power difference calculation (using absolute value formulation).
+           - Energy charged for each EV must be >= `percentage` * requested energy.
+           - Power limits (min/max) for each EV during its connected time.
+           - Zero power before arrival and after departure for each EV.
+           - Aggregate power demand constraint for each time step.
+        5. Solve the linear programming problem using the configured solver (default CBC).
+        6. Extract the results (optimal power values) from `ev_vars` and store them
+           in the `ev.power` list for each EV object.
+        7. Log summary information.
+        """
         logging.info('Number of Connected EVs: %s', len(self.evs))
 
         # Create a linear programming problem

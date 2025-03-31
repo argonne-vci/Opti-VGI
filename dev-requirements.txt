@@ -1,3 +1,6 @@
 pylint
 build
 setuptools
+sphinx
+furo
+sphinx-autodoc-typehints

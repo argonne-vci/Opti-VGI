@@ -1,4 +1,4 @@
-# pylint: disable=broad-exception-caught
+# pylint: disable=missing-module-docstring,broad-exception-caught
 import os
 import logging
 from typing import Optional

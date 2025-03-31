@@ -1,4 +1,4 @@
-# pylint: disable=wrong-import-order
+# pylint: disable=missing-module-docstring,wrong-import-order
 import time
 import threading
 import logging
