@@ -26,12 +26,14 @@ You can run this example using Docker. There are two main ways: using the Opti-V
 This method uses the `Dockerfile` as-is, which installs the latest stable `optivgi` package from the Python Package Index (PyPI).
 
 1.  **Navigate to Example Directory**: Change into the example's directory:
+
     .. code-block:: bash
 
       cd ./examples/http-api/
 
 
 2.  **Build Docker Image**: Build the image using the default Dockerfile:
+
     .. code-block:: bash
 
       docker build -t optivgi-http-example .
@@ -39,6 +41,7 @@ This method uses the `Dockerfile` as-is, which installs the latest stable `optiv
     *(This command will download and install `optivgi` from PyPI during the build process)*
 
 3.  **Run Docker Container**: Run the image:
+
     .. code-block:: bash
 
       docker run --rm -it --name optivgi_http_example optivgi-http-example
