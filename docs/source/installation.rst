@@ -11,7 +11,7 @@ For development, clone the repository and install with development dependencies:
 
 .. code-block:: bash
 
-   git clone https://github.com/Argonne-National-Laboratory/Opti-VGI.git
+   git clone https://github.com/argonne-vci/Opti-VGI.git
    cd Opti-VGI
    pip install -e ".[dev]"
 

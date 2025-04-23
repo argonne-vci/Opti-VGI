@@ -59,9 +59,9 @@ Navigation
 .. toctree::
 	:caption: Links
 
-	GitHub <https://github.com/Argonne-National-Laboratory/Opti-VGI>
+	GitHub <https://github.com/argonne-vci/Opti-VGI>
 	PyPI <https://pypi.org/project/optivgi>
-	License <https://github.com/Argonne-National-Laboratory/Opti-VGI/blob/main/LICENSE>
+	License <https://github.com/argonne-vci/Opti-VGI/blob/main/LICENSE>
 
 Indices and tables
 ==================

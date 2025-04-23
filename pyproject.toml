@@ -25,6 +25,6 @@ dependencies = {file = ["requirements.txt"]}
 optional-dependencies = { dev = { file = ["dev-requirements.txt"] }}
 
 [project.urls]
-Homepage = "https://github.com/Argonne-National-Laboratory/Opti-VGI"
-Documentation = "https://argonne-national-laboratory.github.io/Opti-VGI"
-Issues = "https://github.com/Argonne-National-Laboratory/Opti-VGI/issues"
+Homepage = "https://github.com/argonne-vci/Opti-VGI"
+Documentation = "https://argonne-vci.github.io/Opti-VGI"
+Issues = "https://github.com/argonne-vci/Opti-VGI/issues"
