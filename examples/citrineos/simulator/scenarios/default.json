@@ -1,0 +1,77 @@
+{
+  "description": "Curtailment demo: 6 EVs, 30 kW site limit, 10-min sessions",
+  "sessions": [
+    {
+      "station_id": "OPTIVGI-STATION-01",
+      "connector_id": 1,
+      "arrive_offset_s": 0,
+      "depart_offset_s": 600,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-01",
+      "auto_start": true
+    },
+    {
+      "station_id": "OPTIVGI-STATION-02",
+      "connector_id": 1,
+      "arrive_offset_s": 60,
+      "depart_offset_s": 660,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-02",
+      "auto_start": true
+    },
+    {
+      "station_id": "OPTIVGI-STATION-03",
+      "connector_id": 1,
+      "arrive_offset_s": 120,
+      "depart_offset_s": 720,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-03",
+      "auto_start": true
+    },
+    {
+      "station_id": "OPTIVGI-STATION-04",
+      "connector_id": 1,
+      "arrive_offset_s": 180,
+      "depart_offset_s": 780,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-04",
+      "auto_start": true
+    },
+    {
+      "station_id": "OPTIVGI-STATION-05",
+      "connector_id": 1,
+      "arrive_offset_s": 240,
+      "depart_offset_s": 840,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-05",
+      "auto_start": true
+    },
+    {
+      "station_id": "OPTIVGI-STATION-06",
+      "connector_id": 1,
+      "arrive_offset_s": 300,
+      "depart_offset_s": 900,
+      "capacity_kwh": 60.0,
+      "arrival_soc": 0.20,
+      "target_soc": 1.0,
+      "max_charge_rate_kw": 7.2,
+      "id_tag": "OPTIVGI-06",
+      "auto_start": true
+    }
+  ]
+}
