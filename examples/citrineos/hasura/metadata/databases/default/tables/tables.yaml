@@ -1,0 +1,51 @@
+- table:
+    schema: public
+    name: Authorizations
+- table:
+    schema: public
+    name: Boots
+- table:
+    schema: public
+    name: ChargingProfiles
+- table:
+    schema: public
+    name: ChargingStations
+- table:
+    schema: public
+    name: Components
+- table:
+    schema: public
+    name: Evses
+- table:
+    schema: public
+    name: IdTokenInfos
+- table:
+    schema: public
+    name: IdTokens
+- table:
+    schema: public
+    name: MeterValues
+- table:
+    schema: public
+    name: SecurityEvents
+- table:
+    schema: public
+    name: Subscriptions
+- table:
+    schema: public
+    name: TransactionEvents
+- table:
+    schema: public
+    name: Transactions
+- table:
+    schema: public
+    name: VariableAttributes
+- table:
+    schema: public
+    name: VariableCharacteristics
+- table:
+    schema: public
+    name: VariableMonitorings
+- table:
+    schema: public
+    name: Variables
