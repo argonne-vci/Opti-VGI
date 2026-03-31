@@ -4,3 +4,5 @@ setuptools
 sphinx
 furo
 sphinx-autodoc-typehints
+sphinxcontrib-mermaid
+tomli
