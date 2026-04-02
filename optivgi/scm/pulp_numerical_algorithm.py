@@ -40,22 +40,14 @@ class PulpNumericalAlgorithm(Algorithm):
         Formulates and solves the charging optimization problem using PuLP.
 
         Steps:
+
         1. Create an LpProblem instance.
-        2. Define decision variables:
-           - `ev_vars`: Power allocated to each EV at each time step.
-           - `ev_vars_diff`: Absolute difference in power between consecutive time steps for each EV.
-           - `percentage`: Minimum percentage of energy charged across all EVs (to be maximized).
-        3. Define the objective function: Maximize `percentage`, scaled, plus a term for
-           peak power utilization, minus a penalty for power fluctuations (`ev_vars_diff`).
-        4. Define constraints:
-           - Power difference calculation (using absolute value formulation).
-           - Energy charged for each EV must be >= `percentage` * requested energy.
-           - Power limits (min/max) for each EV during its connected time.
-           - Zero power before arrival and after departure for each EV.
-           - Aggregate power demand constraint for each time step.
+        2. Define decision variables (``ev_vars``, ``ev_vars_diff``, ``percentage``).
+        3. Define the objective function: Maximize ``percentage``, scaled, plus a term for
+           peak power utilization, minus a penalty for power fluctuations.
+        4. Define constraints (power difference, energy targets, power limits, aggregate demand).
         5. Solve the linear programming problem using the configured solver (default CBC).
-        6. Extract the results (optimal power values) from `ev_vars` and store them
-           in the `ev.power` list for each EV object.
+        6. Extract the results (optimal power values) and store them in each EV's power list.
         7. Log summary information.
         """
         logging.info('Number of Connected EVs: %s', len(self.evs))
