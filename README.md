@@ -70,7 +70,12 @@ Opti-VGI provides the core scheduling framework. To use it, you need to:
 2.  **Choose an `Algorithm`:** Select one of the provided algorithms (e.g., `GoAlgorithm`, `PulpNumericalAlgorithm`) or implement your own inheriting from `optivgi.scm.algorithm.Algorithm`.
 3.  **Run the `scm_worker`:** Use the `optivgi.threads.scm_worker` function in a separate thread, providing your `Translation` implementation and chosen `Algorithm` class. Trigger the worker using an event queue.
 
-An example demonstrating integration via a simple HTTP API and WebSocket notifications can be found in the [`./examples/http-api/`](./examples/http-api/) directory. See the [Examples Documentation](https://argonne-vci.github.io/Opti-VGI/examples/index.html) for more details.
+### Examples
+
+*   **[HTTP API](./examples/http-api/):** Integration via a simple HTTP API and WebSocket notifications.
+*   **[CitrineOS](./examples/citrineos/):** Full OCPP 1.6J integration with [CitrineOS](https://github.com/citrineos/citrineos-core) CSMS, including a Docker Compose stack with charger simulator, event-driven scheduling via RabbitMQ, and an automated curtailment demo.
+
+See the [Examples Documentation](https://argonne-vci.github.io/Opti-VGI/examples/index.html) for more details.
 
 ---
 
