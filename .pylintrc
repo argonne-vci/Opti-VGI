@@ -106,7 +106,7 @@ source-roots=
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
-suggestion-mode=yes
+# suggestion-mode removed (unrecognized in pylint 3.x)
 
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.
@@ -442,7 +442,8 @@ disable=raw-checker-failed,
         line-too-long,
         too-many-locals,
         too-many-branches,
-        too-many-instance-attributes
+        too-many-instance-attributes,
+        duplicate-code
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

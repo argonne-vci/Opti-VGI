@@ -5,7 +5,10 @@
 
 import os
 import sys
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 from pathlib import Path
 
 # -- Project information -----------------------------------------------------
@@ -31,6 +34,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.githubpages',
     'sphinx_autodoc_typehints',
+    'sphinxcontrib.mermaid',
 ]
 
 templates_path = ['_templates']

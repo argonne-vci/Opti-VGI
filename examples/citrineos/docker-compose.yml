@@ -1,0 +1,218 @@
+# Copyright 2025 UChicago Argonne, LLC All right reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://github.com/argonne-vci/Opti-VGI/blob/main/LICENSE
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  ocpp-db:
+    image: postgis/postgis:16-3.5
+    environment:
+      POSTGRES_DB: citrine
+      POSTGRES_USER: citrine
+      POSTGRES_PASSWORD: citrine
+    volumes:
+      - ocpp-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U citrine -d citrine"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  amqp-broker:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  minio:
+    image: minio/minio
+    command: server /data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set myminio http://minio:9000 minioadmin minioadmin;
+      "
+    restart: "no"
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  citrineos:
+    image: ghcr.io/citrineos/citrineos-server:v1.8.3
+    depends_on:
+      ocpp-db:
+        condition: service_healthy
+      amqp-broker:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    ports:
+      - "${CITRINEOS_PORT:-8080}:8080"
+      - "${OCPP16_PORT:-8092}:8092"
+    entrypoint: ["/bin/sh", "-c", "sed -i 's/maxConnectionsPerTenant: 1/maxConnectionsPerTenant: 10/g; s/logLevel: 2/logLevel: 6/g' /usr/local/apps/citrineos/Server/dist/config/envs/docker.js && mkdir -p /usr/local/apps/citrineos/Server/data && exec /usr/local/apps/citrineos/entrypoint.sh"]
+    environment:
+      APP_NAME: all
+      APP_ENV: docker
+      DB_STRATEGY: migrate
+      BOOTSTRAP_CITRINEOS_DATABASE_HOST: ocpp-db
+      BOOTSTRAP_CITRINEOS_DATABASE_PORT: 5432
+      BOOTSTRAP_CITRINEOS_DATABASE_NAME: citrine
+      BOOTSTRAP_CITRINEOS_DATABASE_DIALECT: postgres
+      BOOTSTRAP_CITRINEOS_DATABASE_USERNAME: citrine
+      BOOTSTRAP_CITRINEOS_DATABASE_PASSWORD: citrine
+      BOOTSTRAP_CITRINEOS_CONFIG_FILENAME: config.json
+      BOOTSTRAP_CITRINEOS_FILE_ACCESS_TYPE: local
+      BOOTSTRAP_CITRINEOS_FILE_ACCESS_LOCAL_DEFAULT_FILE_PATH: /data
+      AMQP_BROKER_URL: amqp://guest:guest@amqp-broker:5672
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      S3_ENDPOINT: http://minio:9000
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:8080', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  graphql-engine:
+    image: hasura/graphql-engine:v2.40.3
+    depends_on:
+      citrineos:
+        condition: service_healthy
+    ports:
+      - "${HASURA_PORT:-8090}:8080"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://citrine:citrine@ocpp-db:5432/citrine
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_LOG_LEVEL: warn
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup,webhook-log
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  hasura-init:
+    image: python:3.12-slim
+    depends_on:
+      graphql-engine:
+        condition: service_healthy
+    volumes:
+      - ./hasura/init-metadata.py:/init-metadata.py:ro
+    environment:
+      HASURA_GRAPHQL_ENDPOINT: http://graphql-engine:8080
+      SEED_ID_TAGS: ${SEED_ID_TAGS:-OPTIVGI-AUTO}
+    entrypoint: ["python3", "/init-metadata.py"]
+    restart: "no"
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  operator-ui:
+    build:
+      context: https://github.com/citrineos/citrineos-operator-ui.git
+      dockerfile: Dockerfile
+    depends_on:
+      hasura-init:
+        condition: service_completed_successfully
+    ports:
+      - "${OPERATOR_UI_PORT:-3000}:3000"
+    entrypoint: ["/bin/sh", "-c", "find /app/.next -name '*.js' -exec sed -i \"s|http://localhost:8090/v1/graphql|http://localhost:${HASURA_PORT:-8090}/v1/graphql|g\" {} + && find /app/.next -name '*.js' -exec sed -i \"s|ws://localhost:8090/v1/graphql|ws://localhost:${HASURA_PORT:-8090}/v1/graphql|g\" {} + && find /app/.next -name '*.js' -exec sed -i \"s|http://localhost:8080|http://localhost:${CITRINEOS_PORT:-8080}|g\" {} + && exec node server.js"]
+    environment:
+      HASURA_PORT: ${HASURA_PORT:-8090}
+      CITRINEOS_PORT: ${CITRINEOS_PORT:-8080}
+    logging: { driver: none }
+    networks:
+      - citrineos-net
+
+  simulator:
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile
+    depends_on:
+      citrineos:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      CITRINEOS_WS_URL: ${CITRINEOS_WS_URL:-ws://citrineos:8092}
+      STATION_IDS: ${STATION_IDS:-OPTIVGI-STATION-01,OPTIVGI-STATION-02,OPTIVGI-STATION-03,OPTIVGI-STATION-04,OPTIVGI-STATION-05,OPTIVGI-STATION-06}
+      CONNECTORS_PER_STATION: ${CONNECTORS_PER_STATION:-2}
+      METER_VALUES_INTERVAL: ${METER_VALUES_INTERVAL:-10}
+      SCENARIO_FILE: ${SCENARIO_FILE:-}
+    volumes:
+      - ./simulator/scenarios:/usr/src/app/scenarios:ro
+    restart: "no"
+    networks:
+      - citrineos-net
+
+  opti-vgi:
+    build:
+      context: .
+      dockerfile: Dockerfile.optivgi
+    depends_on:
+      citrineos:
+        condition: service_healthy
+      hasura-init:
+        condition: service_completed_successfully
+      amqp-broker:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      CITRINEOS_API_URL: http://citrineos:8080
+      HASURA_URL: http://graphql-engine:8080
+      AMQP_URL: amqp://guest:guest@amqp-broker:5672
+      STATION_GROUPS: default
+    restart: unless-stopped
+    networks:
+      - citrineos-net
+
+volumes:
+  ocpp-db-data:
+
+networks:
+  citrineos-net:
+    driver: bridge
